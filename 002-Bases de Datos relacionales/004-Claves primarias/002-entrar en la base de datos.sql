@@ -1,0 +1,5 @@
+SHOW DATABASES;
+
+USE empresadam;
+
+SHOW TABLES;

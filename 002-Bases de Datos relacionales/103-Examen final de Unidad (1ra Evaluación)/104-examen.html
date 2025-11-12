@@ -1,0 +1,283 @@
+1.-Introducción:
+Debemos crear un sitio web que sea capaz de ser un portafolio personal usando elementos HTML y diseño visual CSS para el HTML creamos cuatros estructuras: un cuerpo, un encabezado, un main con varios artículos, y un pie de página.
+
+2.-Desarrollo:
+Usamos las etiquetas principales para hacer un sitio web HTML con 3 más que usaremos hoy(un encabezado, un main con varios artículos, y un pie de página):
+```
+<!DOCTYPE HTML>
+<html lang="es">
+ <head>
+   <title>Portafolio</title>
+   <meta charset="utf-8">
+   <style>
+   </style>
+ </head>
+<html>
+<body>
+ <header>
+ </header>
+ <main>
+ </main>
+ <footer>
+ </footer>
+</body>
+</html>
+```
+
+Para el CSS, primero al cuerpo le colocamos un color Azul Cielo Claro, para el main, un ancho respectivo con un color de fondo que nos permita ver las cosas, un margen automático, un poco de relleno y una visualización "alargada" (flex):
+```
+    body{background:LightSkyBlue;}
+    main{width:900px;background:white;margin:auto;padding:25px;display:flex;}
+
+```
+
+Para el encabezado y el pie de página, le colocamos alignaciones centrales, un poco de relleno y un color atractivo:
+```
+    header{text-align:center;}
+    footer{padding:3px;text-align:center;background:CornflowerBlue;}
+```
+
+Para la sección izquierda, usaremos un color de fondo, un relleno, un color para el texto y un ancho que nos permita acomodar en "un mismo bloque" la futura sección derecha:
+```
+   	#izquierda{background:LightCyan;padding:20px;color:black;width:200px;}
+```
+
+
+Para la sección derecha, usaremos un relleno específico, un ancho de 700 pixeles, una visualización "flex", los elementos empezarán desde la izquierda hasta que se acomoden y los elementos serán centrados:
+```
+    #derecha{padding:40px;width:700px;display:flex;justify-content:flex-start;align-items: center;}
+```
+
+Para los artículos que hay en la sección derecha, haremos una visualización de rejillas, donde las columnas son automáticas, con una separación de 20 pixeles respecto a la sección izquierda y un color de fondo Azul que nos permita ver los elementos:
+```
+	  #derecha article{display:grid;grid-template-columns: auto auto auto auto auto;gap:20px;background:RoyalBlue;}
+```
+
+Ahora nos movemos a los elementos HTML, primero empezamos con el encabezado de página donde incluimos un título y un subtítulo:
+```
+ <header>
+  <h1>Bryan Glot Fong</h1>
+  <h2>Estudiante en CEAC FP</h2>
+ </header>
+```
+
+Para la sección izquierda, incluiremos 3 artículos donde cada uno tiene una tabla que muestra las columnas:
+```
+  <section id="izquierda">
+  <h3>Propiedades de las tablas:</h3>
+    <article>
+	 <h3>Tabla 1</h3>
+	 <ul>
+	  <li>Columna 1</li>
+	  <li>Columna 2</li>
+	  <li>Columna 3</li>
+	  <li>Columna 4</li>
+	 </ul>
+    </article>
+    <article>
+	 <h3>Tabla 2</h3>
+	 <ul>
+	  <li>Columna 1</li>
+	  <li>Columna 2</li>
+	  <li>Columna 3</li>
+	  <li>Columna 4</li>
+	 </ul>
+    </article>
+    <article>
+	 <h3>Tabla 3</h3>
+	 <ul>
+	  <li>Columna 1</li>
+	  <li>Columna 2</li>
+	  <li>Columna 3</li>
+	  <li>Columna 4</li>
+	 </ul>
+    </article>    
+  </section>    
+```
+
+
+Para la sección derecha, usaremos diferentes artículos que muestren los registros hecho en cada tabla que le corresponde:
+```
+  <section id="derecha">
+   <div id="contenedorderecha">
+     <article>
+      <ul>Titulo</ul>
+      <ul>Descripción</ul>
+      <ul>Fecha</ul>
+      <ul>Categoria</ul>
+      <ul>Imagen</ul>
+     </article>
+     
+     <article>
+      <ul>Titulo</ul>
+      <ul>Descripción</ul>
+      <ul>Fecha</ul>
+      <ul>Categoria</ul>
+      <ul>Imagen</ul>
+     </article>
+     
+     <article>
+      <ul>Titulo</ul>
+      <ul>Descripción</ul>
+      <ul>Fecha</ul>
+      <ul>Categoria</ul>
+      <ul>Imagen</ul>
+     </article>
+     
+     <article>
+      <ul>Titulo</ul>
+      <ul>Descripción</ul>
+      <ul>Fecha</ul>
+      <ul>Categoria</ul>
+      <ul>Imagen</ul>
+     </article>
+
+     <article>
+      <ul>Titulo</ul>
+      <ul>Descripción</ul>
+      <ul>Fecha</ul>
+      <ul>Categoria</ul>
+      <ul>Imagen</ul>
+     </article>
+
+     <article>
+      <ul>Titulo</ul>
+      <ul>Descripción</ul>
+      <ul>Fecha</ul>
+      <ul>Categoria</ul>
+      <ul>Imagen</ul>
+     </article>
+    </div>
+  </section>
+```
+
+
+Para el pie de página usaremos, 3 enlaces de referencias para contactar al creador de la página web:
+```
+ <footer>
+	<a href="https://facebook.com/****">Facebook</a>
+	<a href="https://github.com/****">GitHub</a>
+	<a href="https://linkeldn.com/****">Linkeldn</a>	
+ </footer>
+```
+
+3.-Aplicación:
+Podemos aplicar el diseño de un portafolio personal con elementos HTML y CSS visual para crear portafolios personalizados que ayuden al usuario presentar sus experiencias, formaciones, habilidades de una manera excepcional.
+
+4.-Conclusión:
+Al crear página web usando elementos HTML y elementos visuales de CSS como Grid o Flexbox nos ayuda a crear un sitio web que sea capaz de ser estructurado y visualmente atractivo. Será más adelante útil crear varias páginas simple que sean vinculadas a una página grande que los una.
+
+Código:
+```
+<!DOCTYPE HTML>
+<html lang="es">
+ <head>
+   <title>Portafolio</title>
+   <meta charset="utf-8">
+   <style>
+    body{background:LightSkyBlue;}
+    main{width:900px;background:white;margin:auto;padding:25px;display:flex;}
+    header{text-align:center;}
+    footer{padding:3px;text-align:center;background:CornflowerBlue;}
+
+   	#izquierda{background:LightCyan;padding:20px;color:black;width:200px;}
+    #derecha{padding:20px;width:1000px;display:flex;justify-content:flex-start;align-items: center;}
+	  #derecha article{display:grid;grid-template-columns: auto auto auto auto auto;gap:20px;background:RoyalBlue;}
+
+  </style>
+ </head>
+<body>
+ <header>
+  <h1>Bryan Glot Fong</h1>
+  <h2>Estudiante en CEAC FP</h2>
+ </header>
+ <main>
+  <section id="izquierda">
+    <article>
+	 <h3>Titulo 1</h3>
+	 <ul>
+	  <li>Elemento 1</li>
+	  <li>Elemento 2</li>
+	  <li>Elemento 3</li>
+	  <li>Elemento 4</li>
+	 </ul>
+    </article>
+    <article>
+	 <h3>Titulo 2</h3>
+	 <ul>
+	  <li>Elemento 1</li>
+	  <li>Elemento 2</li>
+	  <li>Elemento 3</li>
+	  <li>Elemento 4</li>
+	 </ul>
+    </article>
+    <article>
+	 <h3>Titulo 3</h3>
+	 <ul>
+	  <li>Elemento 1</li>
+	  <li>Elemento 2</li>
+	  <li>Elemento 3</li>
+	  <li>Elemento 4</li>
+	 </ul>
+    </article>	
+  </section>
+  <section id="derecha">
+   <div id="contenedorderecha">
+     <article>
+      <ul>Titulo</ul>
+      <ul>Descripción</ul>
+      <ul>Fecha</ul>
+      <ul>Categoria</ul>
+      <ul>Imagen</ul>
+     </article>
+     
+     <article>
+      <ul>Titulo</ul>
+      <ul>Descripción</ul>
+      <ul>Fecha</ul>
+      <ul>Categoria</ul>
+      <ul>Imagen</ul>
+     </article>
+     
+     <article>
+      <ul>Titulo</ul>
+      <ul>Descripción</ul>
+      <ul>Fecha</ul>
+      <ul>Categoria</ul>
+      <ul>Imagen</ul>
+     </article>
+     
+     <article>
+      <ul>Titulo</ul>
+      <ul>Descripción</ul>
+      <ul>Fecha</ul>
+      <ul>Categoria</ul>
+      <ul>Imagen</ul>
+     </article>
+
+     <article>
+      <ul>Titulo</ul>
+      <ul>Descripción</ul>
+      <ul>Fecha</ul>
+      <ul>Categoria</ul>
+      <ul>Imagen</ul>
+     </article>
+
+     <article>
+      <ul>Titulo</ul>
+      <ul>Descripción</ul>
+      <ul>Fecha</ul>
+      <ul>Categoria</ul>
+      <ul>Imagen</ul>
+     </article>
+    </div>
+  </section>
+ </main>
+ <footer>
+	<a href="https://facebook.com/****">Facebook</a>
+	<a href="https://github.com/****">GitHub</a>
+	<a href="https://linkeldn.com/****">Linkeldn</a>	
+ </footer>
+</body>
+</html>
+```

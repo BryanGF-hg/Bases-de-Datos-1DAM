@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <title>Bryan Glot Fong</title>
+    <meta charset="utf-8">
+    <style>
+     body,html{padding:0px;margin:0px;width:100%;height:100%;}
+     body{display:flex;justify-content:center;align-items:center;
+     text-align:center;background:#FFEAD2;}
+     form{display:flex;flex-direction:column;width:200px;height:200px;background:#FFFFFD;padding:20px;align-items:center;gap:10px;justify-content:center;}
+     input{width:100%;padding:15px;box-sizing:border-box;border:1 px solid lightgrey;}
+     
+     header{padding:20px;}
+     footer{padding:15px;}
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Micro-Login Fenomenal</h1>
+    </header>
+    <main>
+      <form action="procesa.php" method="POST">
+        <input type="text" name="usuario" placeholder="usuario">
+        <input type="text" name="contrasena" placeholder="contrasena">
+        <input type="submit">
+      </form>
+    </main>
+    <footer>
+      (c) Aplicación fantástica
+    </footer>
+  </body>
+</html>

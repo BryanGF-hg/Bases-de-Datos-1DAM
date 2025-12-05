@@ -1,0 +1,121 @@
+{
+  "formas": [
+    {
+      "id": "forma-1",
+      "tipo": "rectangle",
+      "left": "38px",
+      "top": "115px",
+      "width": "",
+      "height": "",
+      "texto": "Login"
+    },
+    {
+      "id": "forma-2",
+      "tipo": "rectangle",
+      "left": "185.994px",
+      "top": "114px",
+      "width": "",
+      "height": "",
+      "texto": "Comprobacion"
+    },
+    {
+      "id": "forma-4",
+      "tipo": "rectangle",
+      "left": "340.994px",
+      "top": "87.9971px",
+      "width": "",
+      "height": "",
+      "texto": "exito"
+    },
+    {
+      "id": "forma-5",
+      "tipo": "rectangle",
+      "left": "498.997px",
+      "top": "44.9943px",
+      "width": "",
+      "height": "",
+      "texto": "Panel"
+    },
+    {
+      "id": "forma-6",
+      "tipo": "rectangle",
+      "left": "187.104px",
+      "top": "206.88px",
+      "width": "",
+      "height": "",
+      "texto": "no exito"
+    }
+  ],
+  "flechas": [
+    {
+      "desde": {
+        "shapeId": "forma-1",
+        "propId": null,
+        "side": null
+      },
+      "hasta": {
+        "shapeId": "forma-2",
+        "propId": null,
+        "side": null
+      },
+      "tipo": "simple",
+      "estilo": "straight"
+    },
+    {
+      "desde": {
+        "shapeId": "forma-2",
+        "propId": null,
+        "side": null
+      },
+      "hasta": {
+        "shapeId": "forma-4",
+        "propId": null,
+        "side": null
+      },
+      "tipo": "simple",
+      "estilo": "straight"
+    },
+    {
+      "desde": {
+        "shapeId": "forma-4",
+        "propId": null,
+        "side": null
+      },
+      "hasta": {
+        "shapeId": "forma-5",
+        "propId": null,
+        "side": null
+      },
+      "tipo": "simple",
+      "estilo": "straight"
+    },
+    {
+      "desde": {
+        "shapeId": "forma-2",
+        "propId": null,
+        "side": null
+      },
+      "hasta": {
+        "shapeId": "forma-6",
+        "propId": null,
+        "side": null
+      },
+      "tipo": "simple",
+      "estilo": "straight"
+    },
+    {
+      "desde": {
+        "shapeId": "forma-6",
+        "propId": null,
+        "side": null
+      },
+      "hasta": {
+        "shapeId": "forma-1",
+        "propId": null,
+        "side": null
+      },
+      "tipo": "simple",
+      "estilo": "straight"
+    }
+  ]
+}

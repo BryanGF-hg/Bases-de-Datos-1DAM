@@ -1,0 +1,29 @@
+{
+  "descripcion_de_formacion": {
+    "nombre": "Bryan",
+    "apellidos": "Glot Fong",
+    "email": "bgf@gmail.com",
+    "telefono": "12345678",
+    "oficio": "Estudiante 2023-2025"
+  },
+  "descripcion_de_formacion1": {
+    "nombre": "Bryan",
+    "apellidos": "Glot Fong",
+    "email": "bgf1@gmail.com",
+    "telefono": "24681012",
+    "oficio": "Estudiante 2022"
+  },
+  "formacion": {
+    "titulo": "Formacion",
+    "fecha": "2023-2025",
+    "autor": "Bryan Glot Fong",
+    "contenido": "Bachillerato de Ciencias"
+  },
+  "formacion1": {
+    "titulo": "Segunda Formación",
+    "fecha": "2022",
+    "autor": "Bryan Glot Fong",
+    "contenido": "Web Designing Course"
+  }
+}
+

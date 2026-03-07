@@ -1,0 +1,2 @@
+SELECT * FROM matriculas_join;
+

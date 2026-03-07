@@ -1,0 +1,58 @@
+<!doctype html>
+<html>
+  <head>
+    <style>
+      canvas{border:1px solid gray;}
+    </style>
+  </head>
+  <body>
+    <canvas></canvas>
+    <script>
+      let lienzo = document.querySelector("canvas");
+      let contexto = lienzo.getContext("2d");
+      lienzo.width = 256;
+      lienzo.height = 256;
+
+      contexto.textAlign = "center";
+      contexto.fillText("Este es el titulo de la grafica", 128, 10);
+
+      let datos = [25,25,25];
+      let suma = 0;
+      datos.forEach(dato => suma += dato);
+
+      let cursor = 0; // fracción acumulada (0..1)
+
+      datos.forEach(function(dato){
+        let cacho = dato / suma; // fracción (0..1)
+
+        let rojo = Math.round(Math.random()*255);
+        let verde = Math.round(Math.random()*255);
+        let azul = Math.round(Math.random()*255);
+
+        contexto.fillStyle = `rgb(${rojo},${verde},${azul})`;
+
+        const inicio = Math.PI * 2 * cursor;
+        const fin    = Math.PI * 2 * (cursor + cacho);
+
+        contexto.beginPath();
+        contexto.moveTo(128,128);
+        contexto.arc(128, 128, 100, inicio, fin);
+        contexto.closePath();
+        contexto.fill();
+        contexto.fillStyle = "black"
+        let mitadcacho = cacho/2
+        let mitadradio = 50
+        let centrox = 128
+        let centroy = 128
+				contexto.fillText(
+        	dato,
+          centrox+mitadradio*Math.cos((cursor+mitadcacho)*Math.PI*2),
+          centroy+mitadradio*Math.sin((cursor+mitadcacho)*Math.PI*2)
+        );
+        console.log(128+50*Math.cos((cursor+cacho)*Math.PI*2))
+        cursor += cacho; // actualizo la posición del cursor (sigue en 0..1)
+      });
+    </script>
+  </body>
+</html>
+

@@ -1,0 +1,364 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Gráfica bonita</title>
+    <style>
+      :root{
+        --bg1:#0b1220;
+        --bg2:#0a2a43;
+        --card: rgba(255,255,255,.06);
+        --stroke: rgba(255,255,255,.14);
+        --text: rgba(255,255,255,.92);
+        --muted: rgba(255,255,255,.72);
+      }
+      *{box-sizing:border-box}
+      body{
+        margin:0;
+        min-height:100vh;
+        display:grid;
+        place-items:center;
+        font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Helvetica Neue", Arial, sans-serif;
+        background: radial-gradient(1200px 800px at 20% 10%, #1b4965 0%, transparent 55%),
+                    radial-gradient(1000px 700px at 85% 25%, #3a0ca3 0%, transparent 60%),
+                    linear-gradient(180deg, var(--bg1), var(--bg2));
+        color: var(--text);
+      }
+      .card{
+        width:min(860px, 92vw);
+        padding:22px 22px 18px;
+        border-radius:18px;
+        background: var(--card);
+        border: 1px solid var(--stroke);
+        box-shadow: 0 18px 60px rgba(0,0,0,.35);
+        backdrop-filter: blur(10px);
+      }
+      .header{
+        display:flex;
+        align-items:flex-end;
+        justify-content:space-between;
+        gap:12px;
+        margin-bottom:14px;
+      }
+      .title{
+        font-size:18px;
+        font-weight:700;
+        letter-spacing:.2px;
+        margin:0;
+      }
+      .subtitle{
+        margin:0;
+        color: var(--muted);
+        font-size:13px;
+      }
+      .grid{
+        display:grid;
+        grid-template-columns: 1.2fr .8fr;
+        gap:18px;
+        align-items:center;
+      }
+      canvas{
+        width:100%;
+        aspect-ratio: 1 / 1;
+        border-radius:14px;
+        background: radial-gradient(500px 500px at 50% 35%, rgba(255,255,255,.08), transparent 60%);
+        display:block;
+      }
+      .legend{
+        display:flex;
+        flex-direction:column;
+        gap:10px;
+        padding:10px;
+        border-radius:14px;
+        background: rgba(255,255,255,.04);
+        border: 1px solid rgba(255,255,255,.10);
+      }
+      .legend h3{
+        margin:4px 4px 8px;
+        font-size:13px;
+        letter-spacing:.2px;
+        color: var(--muted);
+        font-weight:600;
+      }
+      .item{
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+        gap:10px;
+        padding:8px 10px;
+        border-radius:12px;
+        background: rgba(0,0,0,.15);
+        border: 1px solid rgba(255,255,255,.08);
+      }
+      .left{
+        display:flex;
+        align-items:center;
+        gap:10px;
+        min-width:0;
+      }
+      .swatch{
+        width:12px;
+        height:12px;
+        border-radius:4px;
+        box-shadow: 0 4px 10px rgba(0,0,0,.35);
+        border: 1px solid rgba(255,255,255,.25);
+        flex: 0 0 auto;
+      }
+      .label{
+        font-size:13px;
+        color: var(--text);
+        white-space:nowrap;
+        overflow:hidden;
+        text-overflow:ellipsis;
+      }
+      .right{
+        text-align:right;
+        font-variant-numeric: tabular-nums;
+      }
+      .pct{ font-size:12px; color: var(--muted); }
+      .val{ font-size:13px; font-weight:700; color: var(--text); }
+      .footer{
+        margin-top:12px;
+        color: var(--muted);
+        font-size:12px;
+        display:flex;
+        justify-content:space-between;
+        gap:12px;
+      }
+      @media (max-width: 720px){
+        .grid{ grid-template-columns: 1fr; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <div class="header">
+        <div>
+          <h1 class="title">Este es el título de la gráfica</h1>
+          <p class="subtitle">Donut con porcentajes, valores y leyenda</p>
+        </div>
+        <div class="subtitle" id="totalBox"></div>
+      </div>
+
+      <div class="grid">
+        <canvas id="chart" width="640" height="640"></canvas>
+
+        <div class="legend" id="legend">
+          <h3>Detalle</h3>
+          <!-- items -->
+        </div>
+      </div>
+
+      <div class="footer">
+        <span id="hint">Tip: cambia los datos y labels en el JS.</span>
+        <span id="updated"></span>
+      </div>
+    </div>
+
+    <script>
+      const canvas = document.getElementById("chart");
+      const ctx = canvas.getContext("2d");
+      const legend = document.getElementById("legend");
+
+      // Paleta (la tuya, puedes ampliarla)
+      const colores = [
+        "#0B3C5D","#1F4E79","#274C77","#2C5F8A","#1E6091",
+        "#2A6F97","#468FAF","#4EA8DE","#56CFE1","#72EFDD",
+        "#2D6A4F","#52B788","#74C69D","#006D77","#0096C7",
+        "#3A0CA3","#7209B7","#9D4EDD","#B5179E","#CBD5E1"
+      ];
+
+      // Datos + etiquetas (edita esto)
+      const labels = ["A", "B", "C", "D", "E"];
+      const datos  = [25, 25, 25, 45, 67];
+
+      // Helpers
+      const sum = datos.reduce((a,b)=>a+b,0);
+      const fmtPct = (x) => (x*100).toFixed(1).replace(".", ",") + "%";
+      const dpr = Math.max(1, window.devicePixelRatio || 1);
+
+      function setupHiDPI(){
+        // mantener tamaño CSS, pero aumentar resolución real
+        const rect = canvas.getBoundingClientRect();
+        const w = Math.round(rect.width * dpr);
+        const h = Math.round(rect.height * dpr);
+        if (canvas.width !== w || canvas.height !== h){
+          canvas.width = w;
+          canvas.height = h;
+        }
+        ctx.setTransform(dpr,0,0,dpr,0,0); // dibujar en coordenadas CSS
+      }
+
+      function draw(){
+        setupHiDPI();
+
+        // Coordenadas en CSS px (no en pixels reales)
+        const W = canvas.getBoundingClientRect().width;
+        const H = canvas.getBoundingClientRect().height;
+        const cx = W/2, cy = H/2;
+
+        ctx.clearRect(0,0,W,H);
+
+        // Fondo sutil dentro del canvas
+        const g = ctx.createRadialGradient(cx, cy*0.7, 10, cx, cy, Math.min(W,H)*0.55);
+        g.addColorStop(0, "rgba(255,255,255,.10)");
+        g.addColorStop(1, "rgba(255,255,255,0)");
+        ctx.fillStyle = g;
+        ctx.fillRect(0,0,W,H);
+
+        // Título dentro del canvas (opcional, se ve bien)
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillStyle = "rgba(255,255,255,.92)";
+        ctx.font = "700 16px system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Arial";
+        ctx.fillText("Distribución", cx, 26);
+
+        // Medidas donut
+        const rOuter = Math.min(W,H)*0.36;
+        const rInner = rOuter*0.62;
+
+        // Sombra suave (para todo el donut)
+        ctx.save();
+        ctx.shadowColor = "rgba(0,0,0,.35)";
+        ctx.shadowBlur = 18;
+        ctx.shadowOffsetY = 10;
+
+        // Dibujar segmentos
+        let cursor = -Math.PI/2; // empieza arriba
+        for (let i=0; i<datos.length; i++){
+          const frac = datos[i]/sum;
+          const ang = frac * Math.PI*2;
+          const start = cursor;
+          const end = cursor + ang;
+
+          ctx.beginPath();
+          ctx.moveTo(cx, cy);
+          ctx.arc(cx, cy, rOuter, start, end);
+          ctx.closePath();
+          ctx.fillStyle = colores[i % colores.length];
+          ctx.fill();
+
+          cursor = end;
+        }
+        ctx.restore();
+
+        // Separadores (borde blanco entre porciones)
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = "rgba(255,255,255,.65)";
+        cursor = -Math.PI/2;
+        for (let i=0; i<datos.length; i++){
+          const frac = datos[i]/sum;
+          const ang = frac * Math.PI*2;
+          const start = cursor;
+          const end = cursor + ang;
+
+          ctx.beginPath();
+          ctx.arc(cx, cy, rOuter, start, end);
+          ctx.stroke();
+
+          cursor = end;
+        }
+
+        // Agujero central (donut)
+        ctx.save();
+        ctx.globalCompositeOperation = "destination-out";
+        ctx.beginPath();
+        ctx.arc(cx, cy, rInner, 0, Math.PI*2);
+        ctx.fill();
+        ctx.restore();
+
+        // Centro “badge”
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(cx, cy, rInner, 0, Math.PI*2);
+        ctx.clip();
+        const cg = ctx.createRadialGradient(cx, cy, 10, cx, cy, rInner);
+        cg.addColorStop(0, "rgba(0,0,0,.18)");
+        cg.addColorStop(1, "rgba(0,0,0,.40)");
+        ctx.fillStyle = cg;
+        ctx.fillRect(cx-rInner, cy-rInner, rInner*2, rInner*2);
+        ctx.restore();
+
+        // Total en el centro
+        ctx.fillStyle = "rgba(255,255,255,.92)";
+        ctx.font = "800 30px system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Arial";
+        ctx.fillText(sum, cx, cy-6);
+        ctx.fillStyle = "rgba(255,255,255,.70)";
+        ctx.font = "600 12px system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Arial";
+        ctx.fillText("TOTAL", cx, cy+18);
+
+        // Etiquetas (valor + % dentro de cada segmento)
+        cursor = -Math.PI/2;
+        for (let i=0; i<datos.length; i++){
+          const frac = datos[i]/sum;
+          const ang = frac * Math.PI*2;
+          const mid = cursor + ang/2;
+
+          const rr = (rInner + rOuter) / 2; // radio medio
+          const x = cx + rr * Math.cos(mid);
+          const y = cy + rr * Math.sin(mid);
+
+          // contraste simple: usar blanco si es oscuro (sin calcular luminancia exacta)
+          const texto = "rgba(255,255,255,.92)";
+
+          ctx.textAlign = "center";
+          ctx.textBaseline = "middle";
+          ctx.fillStyle = texto;
+          ctx.font = "800 14px system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Arial";
+          ctx.fillText(datos[i], x, y-8);
+
+          ctx.fillStyle = "rgba(255,255,255,.78)";
+          ctx.font = "700 11px system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Arial";
+          ctx.fillText(fmtPct(frac), x, y+10);
+
+          cursor += ang;
+        }
+      }
+
+      function buildLegend(){
+        legend.querySelectorAll(".item").forEach(n => n.remove());
+
+        for (let i=0; i<datos.length; i++){
+          const frac = datos[i]/sum;
+          const row = document.createElement("div");
+          row.className = "item";
+
+          const left = document.createElement("div");
+          left.className = "left";
+
+          const sw = document.createElement("div");
+          sw.className = "swatch";
+          sw.style.background = colores[i % colores.length];
+
+          const lab = document.createElement("div");
+          lab.className = "label";
+          lab.textContent = labels[i] ?? ("Dato " + (i+1));
+
+          left.appendChild(sw);
+          left.appendChild(lab);
+
+          const right = document.createElement("div");
+          right.className = "right";
+          right.innerHTML = `<div class="val">${datos[i]}</div><div class="pct">${fmtPct(frac)}</div>`;
+
+          row.appendChild(left);
+          row.appendChild(right);
+          legend.appendChild(row);
+        }
+
+        document.getElementById("totalBox").textContent = "Total: " + sum;
+        document.getElementById("updated").textContent =
+          "Actualizado: " + new Date().toLocaleString("es-ES");
+      }
+
+      // Render inicial
+      buildLegend();
+      draw();
+
+      // Redibuja al cambiar tamaño
+      window.addEventListener("resize", () => draw());
+    </script>
+  </body>
+</html>
+

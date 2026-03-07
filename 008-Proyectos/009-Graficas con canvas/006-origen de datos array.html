@@ -1,0 +1,46 @@
+<!doctype html>
+<html>
+  <head>
+    <style>
+      canvas{border:1px solid gray;}
+    </style>
+  </head>
+  <body>
+    <canvas></canvas>
+    <script>
+    	let lienzo = document.querySelector("canvas");
+      let contexto = lienzo.getContext("2d");
+      lienzo.width = 256
+      lienzo.height = 256
+      let datos = [34,67,23,87,45,24,76,34,89]
+      // Cacho 1
+      contexto.fillStyle = "red"
+      contexto.beginPath()
+      contexto.moveTo(128,128)
+      contexto.arc(128,128,100,0,Math.PI*2*0.3)
+      contexto.lineTo(128,128)
+      contexto.fill()
+      // Cacho 2
+      contexto.fillStyle = "green"
+      contexto.beginPath()
+      contexto.moveTo(128,128)
+      contexto.arc(128,128,100,Math.PI*2*0.3,Math.PI*2*0.6)
+      contexto.lineTo(128,128)
+      contexto.fill()
+      // Cacho 3
+      contexto.fillStyle = "black"
+      contexto.beginPath()
+      contexto.moveTo(128,128)
+      contexto.arc(128,128,100,Math.PI*2*0.6,Math.PI*2*0.9)
+      contexto.lineTo(128,128)
+      contexto.fill()
+      // Cacho 4
+      contexto.fillStyle = "white"
+      contexto.beginPath()
+      contexto.moveTo(128,128)
+      contexto.arc(128,128,100,Math.PI*2*0.9,Math.PI*2*1.0)
+      contexto.lineTo(128,128)
+      contexto.fill()
+    </script>
+  </body>
+</html>
